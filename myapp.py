@@ -1,16 +1,23 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
+def index():
+    return render_template('index.html')
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
+@app.route('/data')
+def get_data():
     jsonMessage = {}
     dataObject = {} 
     dataObject['height'] = 181
     dataObject['weight'] = 65
     dataObject['age'] = 22
-
     jsonMessage['message'] = 'Hello World'
     jsonMessage['data'] = dataObject
     return jsonify(jsonMessage)
